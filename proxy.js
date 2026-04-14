@@ -7,7 +7,8 @@ const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") { res.writeHead(200); res.end(); return; }
-  if (req.method !== "POST") { res.writeHead(405); res.end("Method not allowed"); return; }
+  if (req.url === "/health") { res.writeHead(200); res.end("OK"); return; }
+if (req.method !== "POST") { res.writeHead(405); res.end("Method not allowed"); return; }
 
   let body = "";
   req.on("data", chunk => body += chunk);
