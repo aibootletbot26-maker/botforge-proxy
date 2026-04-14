@@ -8,6 +8,10 @@ const server = http.createServer((req, res) => {
 
   if (req.method === "OPTIONS") { res.writeHead(200); res.end(); return; }
   if (req.url === "/health") { res.writeHead(200); res.end("OK"); return; }
+const secret = req.headers["x-proxy-secret"];
+if (secret !== process.env.PROXY_SECRET) {
+  res.writeHead(401); res.end(JSON.stringify({ error: "Unauthorized" })); return;
+}
 if (req.method !== "POST") { res.writeHead(405); res.end("Method not allowed"); return; }
 
   let body = "";
